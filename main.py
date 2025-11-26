@@ -1,6 +1,7 @@
 import math
+
 def es_primo(n):
-    """Verifica si un número es primo"""
+    """Verifica si un número es primo."""
     if n <= 1:
         return False
     if n == 2:
@@ -12,214 +13,127 @@ def es_primo(n):
             return False
     return True
 
-def verificar_primos():
-    """Función para verificar si un número es primo"""
-    while True:
-        print("\n" + "-"*40)
-        try:
-            numero = int(input("Ingresa un número entero: "))
-            
-            if es_primo(numero):
-                print(f"✓ {numero} SI es un número primo.")
-            else:
-                print(f"✗ {numero} NO es un número primo.")
-            
-            # Preguntar si desea continuar
-            print("-"*40)
-            continuar = input("¿Verificar otro número? (s/n): ").strip().lower()
-            
-            if continuar not in ['s', 'si', 'sí']:
-                print("\nRegresando al menú principal...\n")
-                break
-                
-        except ValueError:
-            print("ERROR: Ingresa un número entero válido.")
-        except KeyboardInterrupt:
-            print("\n\nInterrumpido. Regresando al menú...\n")
-            break
 
-def menu_principal1():
-    """Menú principal del programa"""
-    while True:
-        print("="*40)
-        print("  VERIFICADOR DE NÚMEROS PRIMOS")
-        print("="*40)
-        print("1. Verificar números primos")
-        print("2. Salir")
-        print("="*40)
-        
-        opcion = input("Selecciona una opción (1-2): ").strip()
-        
-        if opcion == '1':
-            verificar_primos()
-        elif opcion == '2':
-            print("\n¡Gracias por usar el programa!")
-            print("Cerrando...\n")
-            break
-        else:
-            print("\n⚠ Opción inválida. Elige 1 o 2.\n")
-
-# Punto de entrada del programa
-if __name__ == "__main__":
-    try:
-        menu_principal1()
-    except KeyboardInterrupt:
-        print("\n\nPrograma terminado por el usuario.\n")
-        
 def es_perfecto(n):
-    suma = 0
-    for i in range(1, n):
-        if n % i == 0:
-            suma += i
+    """Determina si un número es perfecto."""
+    suma = sum(i for i in range(1, n) if n % i == 0)
     return suma == n
 
-def generar_numeros_perfectos(n):
+
+def generar_numeros_perfectos(cantidad):
+    """Genera los primeros N números perfectos."""
     encontrados = []
-    numero = 2
-    while len(encontrados) < n:
-        if es_perfecto(numero):
-            encontrados.append(numero)
-        numero += 1
+    num = 2
+    while len(encontrados) < cantidad:
+        if es_perfecto(num):
+            encontrados.append(num)
+        num += 1
     return encontrados
 
-# Bucle principal infinito
-while True:
-    try:
-        cantidad = int(input("\n¿Cuántos números perfectos deseas generar? "))
-        resultado = generar_numeros_perfectos(cantidad)
-
-        print(f"\nLos primeros {cantidad} números perfectos son:")
-        print(resultado)
-
-    except ValueError:
-        print("Por favor, ingresa un número entero válido.")
-        continue  # vuelve a pedir la cantidad
-
-    # Preguntar si desea continuar
-    opcion = input("\n¿Deseas generar más números perfectos? (s/n): ").strip().lower()
-
-    if opcion == "s":
-        continue  # vuelve al inicio del bucle
-    else:
-        print("\nRegresando al menú principal...\n")
-        break  # rompe el bucle y sale al menú principal (fin del programa)
 
 def fibonacci(n):
+    """Calcula el número Fibonacci en la posición n."""
     if n <= 0:
         return 0
-    elif n == 1:
+    if n == 1:
         return 1
-    else:
-        a, b = 0, 1
-        for _ in range(2, n + 1):
-            a, b = b, a + b
-        return b
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b
+
+def menu_primos():
+    while True:
+        print("\n--- VERIFICAR NÚMEROS PRIMOS ---")
+        try:
+            n = int(input("Ingresa un número entero: "))
+            if es_primo(n):
+                print(f"✓ {n} es primo.")
+            else:
+                print(f"✗ {n} NO es primo.")
+        except ValueError:
+            print("Ingresa un número válido.")
+            continue
+
+        if input("¿Deseas verificar otro? (s/n): ").lower() != "s":
+            break
+
+
+def menu_perfectos():
+    while True:
+        print("\n--- GENERAR NÚMEROS PERFECTOS ---")
+        try:
+            n = int(input("¿Cuántos números perfectos deseas generar?: "))
+            print("Resultado:", generar_numeros_perfectos(n))
+        except ValueError:
+            print("Ingresa un número válido.")
+            continue
+
+        if input("¿Deseas generar otros? (s/n): ").lower() != "s":
+            break
+
 
 def menu_fibonacci():
     while True:
+        print("\n--- NÚMEROS FIBONACCI ---")
         try:
-            n = int(input("Ingrese la posición del número Fibonacci que desea calcular: "))
-            resultado = fibonacci(n)
-            print(f"El número Fibonacci en la posición {n} es: {resultado}")
+            n = int(input("Ingresa la posición n: "))
+            print(f"Fibonacci({n}) =", fibonacci(n))
         except ValueError:
-            print("Por favor, ingrese un número entero válido.")
+            print("Ingresa un número válido.")
             continue
 
-        opcion = input("\n¿Desea calcular otro número Fibonacci? (s/n): ").strip().lower()
-        if opcion != 's':
-            print("Regresando al menú principal...\n")
+        if input("¿Deseas calcular otro? (s/n): ").lower() != "s":
             break
 
-# Simulación del menú principal
-def menu_principal():
-    while True:
-        print("=== MENÚ PRINCIPAL ===")
-        print("1. Calcular número Fibonacci")
-        print("2. Salir")
-        opcion = input("Seleccione una opción: ").strip()
 
-        if opcion == '1':
-            menu_fibonacci()
-        elif opcion == '2':
-            print("¡Hasta luego!")
-            break
-        else:
-            print("Opción no válida. Intente de nuevo.\n")
-
-# Ejecutar el menú principal
-menu_principal()
-
-
-
-def calcular_factorial():
+def menu_factorial():
     while True:
         print("\n--- CÁLCULO DE FACTORIAL ---")
-        
         try:
-            numero = int(input("Ingrese un número para calcular su factorial: "))
-            
-            if numero < 0:
-                print("Error: No se puede calcular el factorial de un número negativo.")
+            n = int(input("Ingresa un número entero: "))
+            if n < 0:
+                print("No existe factorial de números negativos.")
             else:
-                resultado = math.factorial(numero)
-                print(f"El factorial de {numero} es {resultado}")
-        
+                print(f"{n}! =", math.factorial(n))
         except ValueError:
-            print("Error: Por favor ingrese un número válido.")
-        
-        # Preguntar si desea continuar
-        print("\n¿Qué desea hacer?")
-        print("1. Calcular otro factorial")
-        print("2. Volver al menú principal")
-        
-        opcion = input("Seleccione una opción (1-2): ")
-        
-        if opcion == "2":
-            print("Volviendo al menú principal...")
-            break
-        elif opcion != "1":
-            print("Opción no válida. Volviendo al menú principal...")
-            break
+            print("Ingresa un número válido.")
+            continue
 
-def mostrar_menu():
-    print("\n📋 MENU PRINCIPAL")
-    print("SELECCIONA LA FUNCIÓN QUE DESEAS REALIZAR.")
-    print("1. Cálculo de Fibonacci")
-    print("2. Cálculo del factorial de un número")
-    print("3. Determinar si un número es primo")
-    print("4. Generar la serie de los primeros N números perfectos")
-    print("5. Salir")
+        if input("¿Deseas calcular otro? (s/n): ").lower() != "s":
+            break
 
 def main():
     while True:
-        mostrar_menu()
-        opcion = input("👉 Ingresa tu opción: ")
+        print("\n===============================")
+        print("        MENÚ PRINCIPAL")
+        print("===============================")
+        print("1. Verificar si un número es primo")
+        print("2. Generar números perfectos")
+        print("3. Calcular Fibonacci")
+        print("4. Calcular factorial")
+        print("5. Salir")
+
+        opcion = input("Selecciona una opción: ")
 
         if opcion == "1":
-            n = int(input("¿Cuántos números de Fibonacci deseas generar? "))
-            print("Serie de Fibonacci:", generar_fibonacci(n))
-
+            menu_primos()
         elif opcion == "2":
-            n = int(input("Ingresa un número entero: "))
-            print(f"El factorial de {n} es: {calcular_factorial()}")
-
+            menu_perfectos()
         elif opcion == "3":
-            n = int(input("Ingresa un número entero: "))
-            print(f"{n} {'es' if es_primo(n) else 'no es'} primo.")
-
+            menu_fibonacci()
         elif opcion == "4":
-            n = int(input("¿Cuántos números perfectos deseas generar? "))
-            print("Números perfectos:", generar_numeros_perfectos(n))
-
+            menu_factorial()
         elif opcion == "5":
-            print("👋 ¡Gracias por usar el programa! Hasta pronto.")
+            print("👋 Gracias por usar el programa.")
             break
-
         else:
-            print("❌ Opción inválida. Intenta nuevamente.")
+            print("Opción inválida. Intenta nuevamente.")
+
 
 if __name__ == "__main__":
     main()
+
 
 
 
